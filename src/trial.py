@@ -163,39 +163,16 @@ edges = [[28, 29],
          [18, 27],
          [27, 28],
          [56, 55],
-         [64, 66],
-         [1,35],
-         [1,34],
-         [1,2],
-         [4,5],
-         [8,34],
-         [7,34],
-         [8,33],
-         [9,33],
-         [9,10],
-         [32,33],
-         [32,15],
-         [32,40],
-         [32,15],
-         [15,31],
-         [31,14],
-         [31,30],
-         [40,12],
-         [40,13],
-         [40,16],
-         [12,13],
-         [12,16],
-         [13,16],[30,29],
-         [32,23],
-         [15,23],
-         [24,25],
-         [25,26]
+         [64, 66]
+
+
+
          ]
 
 
 def solve_tsp_aco(coords):
     # Get number of cities
-    n = 40
+    n =40
 
     # Initialize parameters
     alpha = 4
@@ -207,12 +184,12 @@ def solve_tsp_aco(coords):
     best_route = None
 
     # Define the distance matrix
-    """dist = np.zeros((n, n))
+    dist = np.zeros((n, n))
     for i in range(n):
         for j in range(i + 1, n):
             d = np.sqrt((coords[i][0] - coords[j][0]) ** 2 + (coords[i][1] - coords[j][1]) ** 2)
             dist[i][j] = d
-            dist[j][i] = d"""
+            dist[j][i] = d
 
     # Initialize the pheromone trail matrix
     tau = np.ones((n, n))
@@ -235,9 +212,9 @@ def solve_tsp_aco(coords):
 
             # Loop over the remaining cities
             #for i in range(n - 1):
-            for i in range(st[start_city].neighbours.shape[0]):
-                # Calculate the probabilities for the next city
-                probs = np.zeros(n)
+            for i in range(n):
+                # Calculate the probabilities for the next citye
+                probs = np.zeros(n,dtype=int)
                 denom = 0
                 for j in range(n):
                     if visited[j] == 0:
@@ -247,7 +224,7 @@ def solve_tsp_aco(coords):
                 probs = probs / denom
 
                 # Choose the next city
-                next_city = np.random.choice(range(st[start_city].neighbours.shape[0]), p=st[start_city].probs)
+                next_city = np.random.choice(range(n), p=probs)
                 visited[next_city] = 1
                 route.append(next_city)
                 ants[k][i + 1] = next_city
@@ -323,7 +300,7 @@ for j in range(1, TotalNodeCount + 1):
         if dp[j][i] != float('inf'):
             next[j][i] = i
 
-        # %%wljbcjdancb
+        # %%
 for k in range(1, TotalNodeCount + 1):
     for j in range(1, TotalNodeCount + 1):
         for i in range(1, TotalNodeCount + 1):
@@ -331,10 +308,16 @@ for k in range(1, TotalNodeCount + 1):
                 dp[j][i] = dp[j][k] + dp[k][i]
                 next[j][i] = next[j][k]
 
+
+rt, dst = solve_tsp_aco(givenPoints)
+for i in range(40):
+    rt[i] += 1
+print("Best route:", rt)
+print("Distance:", distance)
 """print("Best route:", route)
 print("Distance:", distance)"""
 
-st = []
+"""st = []
 
 for i in range(len(givenPoints)):
     st.append(Station(givenPoints[i][0], givenPoints[i][1]))
@@ -343,10 +326,9 @@ for edge in edges:
         continue
     else:
         st[edge[0] - 1].neighbours = np.append(st[edge[0] - 1].neighbours, edge[1] - 1)
-        st[edge[0] - 1].probs=np.append(0)
         st[edge[1] - 1].neighbours = np.append(st[edge[1] - 1].neighbours, edge[0] - 1)
 rt, dst = solve_tsp_aco(givenPoints)
 for i in range(40):
     rt[i] += 1
 print("Best route:", rt)
-print("Distance:", dst)
+print("Distance:", dst)"""
